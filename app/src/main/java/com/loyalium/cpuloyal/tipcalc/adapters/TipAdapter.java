@@ -25,6 +25,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
     private List<TipRecord> dataset;
     private OnItemClickListener onItemClickListener;
 
+
     public TipAdapter(Context context, List<TipRecord> dataset, OnItemClickListener listener) {
         this.context = context;
         this.dataset = dataset;
@@ -52,7 +53,7 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
                 element.getTip());
 
         holder.txtContent.setText(strTip);
-        holder.setOnItemClickListener(element, onItemClickListener);
+        holder.setOnItemClickListener(element, this.onItemClickListener);
     }
 
     @Override
@@ -71,24 +72,25 @@ public class TipAdapter extends RecyclerView.Adapter<TipAdapter.TipViewHolder> {
     }
 
     public class TipViewHolder extends RecyclerView.ViewHolder {
-
+        private View view;
         @Bind(R.id.txtContent)
         TextView txtContent;
 
         public TipViewHolder(View itemView) {
             super(itemView);
+            this.view = itemView;
             ButterKnife.bind(this, itemView);
         }
 
-        public void setOnItemClickListener(final TipRecord element, final OnItemClickListener onItemClickListener) {
+        public void setOnItemClickListener(final TipRecord element,
+                                           final OnItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(element);
-                    }
+                    listener.onItemClick(element);
                 }
             });
+
         }
     }
 }
